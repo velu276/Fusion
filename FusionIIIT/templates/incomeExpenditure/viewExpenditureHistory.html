@@ -10,7 +10,7 @@
     border-style: groove;
     padding: 2%;">
       <div class="card-header">
-        Granted to : {{items.granted_to}}
+         
       </div>
       <div class="card-body">
         <h5 class="card-title">Purpose :{{items.spent_on}}</h5>
@@ -18,7 +18,10 @@
           <br>
           Amount : {{items.amount}}
           <br>
-          Receipt : {{items.receipt}}
+          Remarks : {{items.remarks}}
+          <br>
+          Receipt : <a href="#">view</a>
+          <br>
         </p>
         <form action="/income-expenditure/deleteExpenditureHistory/" method="POST" id="del_expenditure">{% csrf_token %}
         <input hidden type="text" name = 'id' value="{{ items.id }}">
