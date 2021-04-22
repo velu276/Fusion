@@ -17,6 +17,8 @@
         <p class="card-text">Date added : {{items.date_added}}
           <br>
           Amount : {{items.amount}}
+          <br>
+          Receipt : {{items.receipt}}
         </p>
         <form action="/income-expenditure/deleteExpenditureHistory/" method="POST" id="del_expenditure">{% csrf_token %}
         <input hidden type="text" name = 'id' value="{{ items.id }}">
