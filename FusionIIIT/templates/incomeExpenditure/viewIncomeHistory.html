@@ -4,7 +4,7 @@
 
 <div class="ui vertical segment">
    
-    <form id="view_income_history_form" method='POST' action='/income-expenditure/viewIncomeHistory/' target="_blank">{% csrf_token %}
+    <form id="view_income_history_form" method='POST' action='/income-expenditure/viewIncomeHistory/' >{% csrf_token %}
       <div class="ui form" style="border: black" > 
         <div class="two fields">
             <div class = "field">
@@ -19,32 +19,68 @@
       <center> <button class="ui primary button" type='submit'>Get History</button></center>
     </form>
 
-    <!-- {% for items in income_history %}
+     {% for items in income_history %}
     
-    <div class="card" style = "margin-bottom: 5%;
+    <div class="card" style = "margin-bottom: 5%; margin-top: 5%;
     border-style: groove;
     padding: 2%;">
       <div class="card-body">
-        <h5 class="card-title">Purpose : {{items.source}} </h5>
-        <p class="card-text">Sub Type : {{items.sub_type}}
+        <form class='form-inline ' action="/income-expenditure/deleteIncomeHistory/" method="POST" id="del_income">{% csrf_token %}
+          <div class="form-group">
+            <b>
+            <label for="Purpose">Purpose: </label>
+            <input type="text" id="Purpose" class="form-control mx-sm-3" aria-describedby="passwordHelpInline" value='{{items.source}}' style="border-style: hidden;" disabled></input>
+          </b>
+          </div>
+
+        
+        <p class="card-text">
+
+          <div class="card-body">
+            
+              
+                
+                <label for="subType">Sub Type : </label>
+                <input type="text" id="_subType" class="form-control mx-sm-3"  value='{{items.sub_type}}' style="border-style: hidden;" disabled></input>
+               
+                <select class="ui dropdown" name="income_sub_type" id="subType">
+                  {% for z in income_sub_types %}
+                  {% ifequal z.income_type  items.source%}
+                  <option value="{{z.income_sub_type}}">{{ z.income_sub_type }}</option>
+                  {% endifequal %}
+                  {% endfor %}
+                </select>
+
+          
+          <br>
           <br>
           Date added : {{items.date_added}}
           <br>
-          Amount : {{items.amount}}
           <br>
-          Remarks: {{items.remarks}}
+          Amount :<i class="rupee sign icon" style="margin-right: 0;"></i><b><input type="number" id="amount" value="{{items.amount}}" style="border-style: hidden;" disabled> </input></b>
+          <br>
+          <br>
+          Remarks:  <input type="text" id="remarks" value="{{items.remarks}}" style="border-style: hidden;" disabled> </input>
           
-         -- <br>
-          Receipt : <a href="#">view</a> 
+          <br>
+         <!--receipt--> 
         </p>
-        <form action="/income-expenditure/deleteIncomeHistory/" method="POST" id="del_income">{% csrf_token %}
+        
           <input hidden  name = 'id' value="{{ items.id }}">
-          <button class="ui primary button" type='submit' style="background-color: #FE7153; box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); font-size: 80%;">Delete</button>
+          
+          <input value="Delete"  type='submit' id="delete" class="ui primary button" style="background-color: #FE7153; box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); font-size: 80%;"></input>
+          <input id="edit" type="button" value="Edit"  class="ui primary button"  style="background-color: #32CD32; box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); font-size: 80%;"></input>
+          <input id="update" type ="hidden" value="Update"  class="ui primary button"  formaction="/income-expenditure/updateIncomeHistory" style="background-color: #32CD32; box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); font-size: 80%;" hidden></input>
+
+         <!---- <input id="edit" type="button" value="Edit">
+          <input id="update" type="button" value="Update" hidden> -->
+
         </form>
+        
       </div>
       </div>
 
-        {% endfor %} -->
+        {% endfor %} 
 
 
 
@@ -53,6 +89,31 @@
 
 
 <script type="text/javascript" src="{% static 'globals/js/jquery.min.js' %}"></script>
+<script type="text/javascript">
+
+var el = document.getElementById('edit');
+el.addEventListener('click', function() {
+  document.getElementById('subType').disabled = false;
+  document.getElementById('amount').disabled = false;
+  document.getElementById('remarks').disabled = false;
+
+  document.getElementById('subType').style = "border: 1px solid #ccc;";
+  document.getElementById('amount').style = "border: 1px solid #ccc;";
+  document.getElementById('remarks').style = "border: 1px solid #ccc;";
+  
+  document.getElementById('edit').type = "hidden";   
+  document.getElementById('update').type = "submit";
+  document.getElementById('delete').type = "hidden";
+  
+});
+
+
+</script>
+
+
+
+
+
 <script type="text/javascript">
 $(function() {
     $("#del_income").submit(function(event) {
@@ -72,3 +133,4 @@ $(function() {
     });
 });
 </script>
+
